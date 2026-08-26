@@ -507,38 +507,66 @@ h2, h3 {
   border-color: var(--red-accent);
 }
 
-/* Card visual placeholder */
+/* Card visual / screenshot thumbnail */
 .card-visual {
   height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   overflow: hidden;
+  background-color: var(--bg-deep);
 }
 
-.card-visual--1 {
-  background: linear-gradient(135deg, #2a0f0f 0%, #5c1616 50%, #1a0a0a 100%);
-}
-.card-visual--2 {
-  background: linear-gradient(135deg, #1a0a0a 0%, #4a0e0e 50%, #8b1a1a 100%);
-}
-.card-visual--3 {
-  background: linear-gradient(135deg, #3a0c0c 0%, #1a0a0a 50%, #5c1616 100%);
-}
-.card-visual--4 {
-  background: linear-gradient(135deg, #1a0a0a 0%, #3a0c0c 40%, #8b1a1a 100%);
+.card-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.6s var(--ease-out-expo), filter 0.6s var(--ease-out-expo);
+  filter: brightness(0.85) contrast(1.05);
 }
 
-.card-visual-icon {
-  color: var(--warm-highlight);
-  opacity: 0.35;
-  transition: opacity var(--transition), transform var(--transition);
+/* Subtle red tint overlay matching portfolio dark red aesthetic */
+.card-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(198, 40, 40, 0.35) 0%,
+    rgba(139, 26, 26, 0.2) 50%,
+    rgba(26, 10, 10, 0.6) 100%
+  );
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transition: opacity var(--transition);
+  z-index: 1;
 }
 
-.demo-card:hover .card-visual-icon {
-  opacity: 0.6;
-  transform: scale(1.1);
+.card-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(239, 83, 80, 0.18) 0%,
+    rgba(26, 10, 10, 0.35) 100%
+  );
+  pointer-events: none;
+  transition: opacity var(--transition);
+  z-index: 2;
+}
+
+.demo-card:hover .card-thumb {
+  transform: scale(1.06);
+  filter: brightness(0.95) contrast(1.08);
+}
+
+.demo-card:hover .card-visual::before {
+  opacity: 0.75;
+}
+
+.demo-card:hover .card-visual::after {
+  opacity: 0.5;
 }
 
 .card-body {
